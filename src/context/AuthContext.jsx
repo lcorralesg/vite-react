@@ -49,6 +49,23 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
       // setErrors(error.response.data.message);
     }
+  };    
+
+  const singinGoogle = async (user) => {
+    const login_user = {
+      email: user.email,
+      password: user.password,
+    };
+    try {
+      const res = await loginRequest(login_user);
+      setUser(res.data);
+      setIsAuthenticated(true);
+      if (res.status === 200) {
+        console.log("Usuario logeado");
+      }
+    } catch (error) {
+        signup(user);
+    }
   };
 
   const logout = () => {
@@ -87,6 +104,7 @@ export const AuthProvider = ({ children }) => {
         user,
         signup,
         signin,
+        singinGoogle,
         logout,
         isAuthenticated,
         errors,
