@@ -29,6 +29,8 @@ function LoginPage (){
         /* global google */
         google.accounts.id.initialize({
             client_id: "876674005177-3mfb2ce77speu3m7q0g9c09lg1sqnebo.apps.googleusercontent.com",
+            //Permitir dominio "lcorralesg.live"
+            allowed_parent_origin: "http://lcorralesg.live",
             callback: handleCallbackResponse
         });
 
