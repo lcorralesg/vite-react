@@ -1,20 +1,13 @@
 import { useEffect } from "react";
 import { useUsers } from "../context/UsersContext";
-import { useNavigate} from "react-router-dom"
 
 function HomePage() {
     const { getUsers, users, deleteUser } = useUsers();
 
     useEffect(() => {
         getUsers();
-        
     }
     , []);
-
-    const handleDelete = (id) => {
-        deleteUser(id);
-        navigate("/")
-    }
 
     return (
         <div className="flex flex-col items-center justify-center h-screen ">
@@ -40,7 +33,7 @@ function HomePage() {
                             <td className="border border-slate-700">{user.updatedAt}</td>
                             <td className="border border-slate-700 items-center ">
                                 <button
-                                    onClick={() => handleDelete(user._id)}
+                                    onClick={() => deleteUser(user._id)}
                                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                 >
                                     Eliminar

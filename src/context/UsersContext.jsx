@@ -24,8 +24,10 @@ export function UsersProvider({ children }) {
     const deleteUser = async (id) => {
         try {
             const res = await deleteUserRequest(id);
+            console.log(res.status);
             if (res.status === 204) {
-                setUsers(users.filter(user => user._id !== id));
+                console.log("Usuario eliminado");
+                setUsers(users.filter((user) => user._id !== id));
             }
         } catch (error) {
             console.log(error);
