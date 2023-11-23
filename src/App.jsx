@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
 import HomePage from "./pages/HomePage"
+import ConfirmPage from "./pages/ConfirmPage"
 import ProtectedRoute from "./ProtectedRoute"
 import { UsersProvider } from "./context/UsersContext"
 
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element={ <HomePage /> } />
             </Route>
           <Route path="/register" element={ <RegisterPage /> } />
+          <Route path="/confirm" element={ <ConfirmPage /> } />
           <Route path="/login" element={ <LoginPage /> } />
         </Routes>
       </BrowserRouter>

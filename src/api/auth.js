@@ -1,5 +1,8 @@
 import axios from "./axios";
 
+export const preRegisterRequest = user =>
+    axios.post(`/pre-register`, user);
+
 export const registerRequest = user =>
     axios.post(`/register`, user);
 

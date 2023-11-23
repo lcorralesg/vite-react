@@ -3,9 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom"
 import { useEffect } from "react"
 
-function RegisterPage (){
+function ConfirmPage (){
     const { register, handleSubmit } = useForm()
-    const { preSignup, isAuthenticated } = useAuth()
+    const { signup, isAuthenticated, user, errors } = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -15,51 +15,37 @@ function RegisterPage (){
     } , [isAuthenticated])
 
     const onSubmit = handleSubmit(async (data) => {
-        await preSignup(data)
-        if (data) {
-            navigate("/confirm")
-        }
+        await signup(data)
     })
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="text-4xl font-bold mb-8">Register</h1>
+            <h1 className="text-4xl font-bold mb-8">Confirm</h1>
+            <p className="text-red-500 mb-4">{errors}</p>
             <div className="bg-zinc-800 max-w-md w-full px-4 py-8 rounded-md shadow-md">
                 <form
                     onSubmit={onSubmit}>
                     <input
+                        type="hidden"
+                        {...register("id", {required: true})}
+                        value={user.id}
+                    />
+                    <input
                         type="text"
-                        placeholder="Username"
-                        {...register("username", {required: true})}
+                        placeholder="Code"
+                        {...register("code", {required: true})}
                         className="w-full p-2 my-2 border border-gray-400 rounded outline-none text-gray-600"
                     />
-
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        {...register("email", {required: true})}
-                        className="w-full p-2 my-2 border border-gray-400 rounded outline-none text-gray-600"
-                    />
-
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        {...register("password", {required: true})}
-                        className="w-full p-2 my-2 border border-gray-400 rounded outline-none text-gray-600"
-                    />
-
                     <button
                         type="submit"
                         className="w-full py-2 px-100 bg-zinc-600 hover:bg-zinc-500 rounded-md text-white text-sm font-medium"
                     >
-                        Register
+                        Confirm
                     </button>
-
-                    <Link to="/login" className="text-sm text-gray-500 hover:text-gray-600 hover:underline mt-4">Already have an account? Login</Link>
                 </form>
             </div>
         </div>
     )
 }
 
-export default RegisterPage
+export default ConfirmPage

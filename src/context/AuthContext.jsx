@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
-import { loginRequest, registerRequest, verifyTokenRequest } from "../api/auth";
+import { loginRequest, registerRequest, verifyTokenRequest, preRegisterRequest } from "../api/auth";
 import Cookies from "js-cookie";
 
 const AuthContext = createContext();
@@ -27,15 +27,34 @@ export const AuthProvider = ({ children }) => {
     }
   }, [errors]);
 
-  const signup = async (user) => {
+  const preSignup = async (user) => {
     try {
-      const res = await registerRequest(user);
-      if (res.status === 200) {
-        setUser(res.data);
-        setIsAuthenticated(true);
+      const response = await preRegisterRequest(user);
+      if (response.status === 200) {
+        setUser(response.data);
+      } else {
+        console.log(response.status);
+        setErrors(response.data.message);
       }
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
+      setErrors("Ocurrió un error al realizar la solicitud");
+    }
+  };
+  
+  const signup = async (user) => {
+    try {
+      console.log(user);
+      const response = await registerRequest(user);
+      if (response.status === 200) {
+        setUser(response.data);
+        setIsAuthenticated(true);
+      } else {
+        console.log(response.status);
+        setErrors(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
       setErrors(error.response.data.message);
     }
   };
@@ -102,6 +121,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        preSignup,
         signup,
         signin,
         singinGoogle,
